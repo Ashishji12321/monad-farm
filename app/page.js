@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { MagnifyingGlass, BellSimple } from "@phosphor-icons/react";
 
 export default function Home() {
-  // CHANGE THIS to your Sheet.best API URL!
+  // Your Sheet.best API URL:
   const SHEET_URL = "https://api.sheetbest.com/sheets/778987b8-6b96-49dd-9335-9f5d3ea95db7";
 
   const [airdrops, setAirdrops] = useState([]);
@@ -13,21 +13,23 @@ export default function Home() {
   useEffect(() => {
     fetch(SHEET_URL)
       .then(res => res.json())
-      .then(setAirdrops);
+      .then(setAirdrops)
+      .catch(console.error);
   }, []);
 
   const filtered = airdrops.filter(
     drop =>
-      drop.Status?.toLowerCase().includes(tab.toLowerCase()) &&
-      (drop.Name?.toLowerCase().includes(search.toLowerCase()) ||
-        drop.Project?.toLowerCase().includes(search.toLowerCase()))
+      (drop.Status?.toLowerCase() || "").includes(tab.toLowerCase()) &&
+      (
+        (drop.Name?.toLowerCase() || "").includes(search.toLowerCase()) ||
+        (drop.Project?.toLowerCase() || "").includes(search.toLowerCase())
+      )
   );
 
   return (
     <div
       className="min-h-screen flex flex-col bg-gradient-to-br from-blue-400 via-purple-400 to-indigo-500"
       style={{
-        minHeight: "100vh",
         fontFamily: "'Inter', 'Segoe UI', Arial, sans-serif",
       }}
     >
@@ -82,7 +84,15 @@ export default function Home() {
             />
           </div>
           {/* Add Custom Airdrop */}
-          <button className="flex items-center justify-center px-6 py-3 bg-white text-purple-700 font-semibold text-lg rounded-xl shadow-md hover:bg-purple-600 hover:text-white transition space-x-2">
+          <button
+            onClick={() =>
+              window.open(
+                "https://docs.google.com/forms/d/e/1FAIpQLScWMEdrrPM6PYaFygnx9x_5L_7HY7zxkV360QHpzJ6cjFBw-A/viewform?usp=dialog",
+                "_blank"
+              )
+            }
+            className="flex items-center justify-center px-6 py-3 bg-white text-purple-700 font-semibold text-lg rounded-xl shadow-md hover:bg-purple-600 hover:text-white transition space-x-2"
+          >
             <span className="text-2xl">+</span>
             <span>Add Custom Airdrop</span>
           </button>
@@ -98,19 +108,31 @@ export default function Home() {
             </div>
           )}
           {filtered.map((airdrop, i) => (
-            <div key={i} className="bg-white/80 rounded-xl p-5 shadow-lg flex flex-col items-start hover:shadow-2xl transition">
+            <div
+              key={i}
+              className="bg-white/80 rounded-xl p-5 shadow-lg flex flex-col items-start hover:shadow-2xl transition"
+            >
               <div className="flex items-center mb-3">
-                <img src={airdrop.Image} alt="" className="w-14 h-14 rounded-xl mr-3" />
+                {airdrop.Image && (
+                  <img
+                    src={airdrop.Image}
+                    alt=""
+                    className="w-14 h-14 rounded-xl mr-3"
+                    onError={e => (e.target.style.display = "none")}
+                  />
+                )}
                 <div>
                   <h2 className="text-xl font-bold text-purple-900">{airdrop.Name}</h2>
                   <div className="text-sm text-gray-600">{airdrop.Project}</div>
-                  <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
-                    airdrop.Status === "Live"
-                      ? "bg-green-100 text-green-700"
-                      : airdrop.Status === "Upcoming"
-                      ? "bg-yellow-100 text-yellow-700"
-                      : "bg-gray-300 text-gray-700"
-                  }`}>
+                  <span
+                    className={`inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
+                      airdrop.Status === "Live"
+                        ? "bg-green-100 text-green-700"
+                        : airdrop.Status === "Upcoming"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : "bg-gray-300 text-gray-700"
+                    }`}
+                  >
                     {airdrop.Status}
                   </span>
                 </div>
@@ -118,12 +140,20 @@ export default function Home() {
               <div className="mb-2 text-gray-700">{airdrop.Description}</div>
               <div className="flex space-x-2 mt-auto">
                 {airdrop.Website && (
-                  <a href={airdrop.Website} target="_blank" className="px-3 py-1 text-white bg-purple-600 rounded-lg font-medium hover:bg-purple-800 text-sm transition">
+                  <a
+                    href={airdrop.Website}
+                    target="_blank"
+                    className="px-3 py-1 text-white bg-purple-600 rounded-lg font-medium hover:bg-purple-800 text-sm transition"
+                  >
                     Visit Site
                   </a>
                 )}
                 {airdrop.Guide && (
-                  <a href={airdrop.Guide} target="_blank" className="px-3 py-1 text-purple-700 bg-purple-100 rounded-lg font-medium hover:bg-purple-200 text-sm transition">
+                  <a
+                    href={airdrop.Guide}
+                    target="_blank"
+                    className="px-3 py-1 text-purple-700 bg-purple-100 rounded-lg font-medium hover:bg-purple-200 text-sm transition"
+                  >
                     Guide
                   </a>
                 )}
