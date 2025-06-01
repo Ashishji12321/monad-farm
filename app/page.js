@@ -5,15 +5,38 @@ const tasks = [
   {
     title: "Deploy a contract on Monad testnet",
     description: "Open the Monad explorer and connect your wallet.",
-    link: "https://explorer.testnet.monad.xyz/", // Explorer link
     guide: [
       {
-        step: "Go to the Monad testnet faucet and request test tokens.",
-        link: "https://faucet.testnet.monad.xyz/",
+        step: (
+          <>
+            Go to the Monad testnet faucet and request test tokens from{" "}
+            <a
+              href="https://faucet.testnet.monad.xyz/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline hover:text-pink-600 transition"
+            >
+              Faucet
+            </a>
+            .
+          </>
+        ),
       },
       {
-        step: "Open the Monad explorer and connect your wallet.",
-        link: "https://explorer.testnet.monad.xyz/",
+        step: (
+          <>
+            Open the{" "}
+            <a
+              href="https://explorer.testnet.monad.xyz/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline hover:text-pink-600 transition"
+            >
+              Monad Explorer
+            </a>{" "}
+            and connect your wallet.
+          </>
+        ),
       },
       {
         step: "Click 'Deploy Contract', paste contract code, and deploy.",
@@ -26,11 +49,22 @@ const tasks = [
   {
     title: "Swap tokens on Ambient DEX",
     description: "Connect your wallet.",
-    link: "https://testnet.ambient.exchange/",
     guide: [
       {
-        step: "Go to Ambient DEX (testnet).",
-        link: "https://testnet.ambient.exchange/",
+        step: (
+          <>
+            Go to{" "}
+            <a
+              href="https://testnet.ambient.exchange/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline hover:text-pink-600 transition"
+            >
+              Ambient
+            </a>{" "}
+            DEX (testnet).
+          </>
+        ),
       },
       {
         step: "Connect your wallet.",
@@ -46,11 +80,22 @@ const tasks = [
   {
     title: "Mint an NFT on Opals",
     description: "Connect your wallet.",
-    link: "https://opals.io/",
     guide: [
       {
-        step: "Visit the Opals dApp on Monad testnet.",
-        link: "https://opals.io/",
+        step: (
+          <>
+            Visit the{" "}
+            <a
+              href="https://opals.io/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline hover:text-pink-600 transition"
+            >
+              Opals
+            </a>{" "}
+            dApp on Monad testnet.
+          </>
+        ),
       },
       {
         step: "Connect your wallet.",
@@ -75,7 +120,7 @@ export default function Home() {
     <div
       className="min-h-screen flex flex-col items-center justify-center px-2"
       style={{
-        background: "linear-gradient(135deg, #141e30 0%, #243b55 100%)",
+        background: "linear-gradient(135deg, #171f2c 0%, #232c43 100%)",
         animation: "bgMove 12s ease-in-out infinite alternate",
       }}
     >
@@ -93,9 +138,9 @@ export default function Home() {
               0 0 48px #6cf;
           }
           .glassmorph {
-            backdrop-filter: blur(16px) saturate(120%);
-            background: rgba(255,255,255,0.32) !important;
-            border: 1px solid rgba(255,255,255,0.18);
+            backdrop-filter: blur(18px) saturate(120%);
+            background: rgba(255,255,255,0.22) !important;
+            border: 1px solid rgba(255,255,255,0.14);
           }
         `}
       </style>
@@ -106,31 +151,19 @@ export default function Home() {
         {tasks.map((task, idx) => (
           <li
             key={idx}
-            className="bg-white/10 border border-white/30 rounded-2xl p-8 shadow-xl backdrop-blur-md hover:scale-[1.03] transition-all duration-300 group"
+            className="bg-white/10 border border-white/20 rounded-2xl p-8 shadow-2xl backdrop-blur-xl hover:scale-[1.01] transition-all duration-300 group"
             style={{
               boxShadow:
-                "0 4px 32px 0 rgba(0,0,0,0.24), 0 1.5px 12px 0 rgba(85,180,255,0.13)",
+                "0 2px 24px 0 rgba(0,0,0,0.16), 0 1.5px 8px 0 rgba(85,180,255,0.09)",
             }}
           >
-            <h2 className="text-2xl md:text-3xl font-semibold text-white mb-2 group-hover:text-cyan-300 transition">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 group-hover:text-cyan-200 transition">
               {task.title}
             </h2>
             <p className="mb-5 text-gray-100 opacity-90">{task.description}</p>
-            <a
-              href={task.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block mb-4 px-5 py-2 bg-gradient-to-r from-green-400 to-blue-500 text-white font-semibold rounded-xl shadow hover:from-pink-400 hover:to-purple-700 transition-all mr-3"
-              style={{
-                textShadow: "0 2px 8px #3af",
-                letterSpacing: "1px",
-              }}
-            >
-              Open dApp
-            </a>
             <button
               onClick={() => setOpenGuide(openGuide === task.title ? null : task.title)}
-              className="px-6 py-2 bg-gradient-to-r from-cyan-400 to-blue-600 text-white font-medium rounded-xl shadow-lg hover:from-pink-400 hover:to-purple-700 transition-all focus:outline-none focus:ring-4 focus:ring-cyan-200 active:scale-95"
+              className="px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-xl shadow-lg hover:from-pink-400 hover:to-purple-700 transition-all focus:outline-none focus:ring-4 focus:ring-cyan-200 active:scale-95"
               style={{
                 textShadow: "0 2px 8px #3af",
                 letterSpacing: "1px",
@@ -139,22 +172,10 @@ export default function Home() {
               {openGuide === task.title ? "Hide Guide" : "Show Guide"}
             </button>
             {openGuide === task.title && (
-              <ol className="mt-6 bg-white/70 rounded-xl p-4 text-gray-800 shadow-inner glassmorph">
-                {task.guide.map((step, i) => (
+              <ol className="mt-6 bg-white/85 rounded-xl p-4 text-gray-900 shadow-inner glassmorph">
+                {task.guide.map((stepObj, i) => (
                   <li key={i} className="mb-2 text-lg">
-                    {i + 1}.{" "}
-                    {step.link ? (
-                      <a
-                        href={step.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-700 underline hover:text-pink-600 transition-all"
-                      >
-                        {step.step}
-                      </a>
-                    ) : (
-                      step.step
-                    )}
+                    {i + 1}. {stepObj.step}
                   </li>
                 ))}
               </ol>
