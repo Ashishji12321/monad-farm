@@ -4,7 +4,7 @@ import { MagnifyingGlass, BellSimple } from "@phosphor-icons/react";
 
 export default function Home() {
   // CHANGE THIS to your Sheet.best API URL!
-  const SHEET_URL = "https://api.sheetbest.com/sheets/179f1e42-afdd-4c8f-93c9-00872753c3a7";
+  const SHEET_URL = "https://api.sheetbest.com/sheets/778987b8-6b96-49dd-9335-9f5d3ea95db7";
 
   const [airdrops, setAirdrops] = useState([]);
   const [search, setSearch] = useState("");
