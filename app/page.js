@@ -1,11 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
-import { MagnifyingGlass, BellSimple } from "@phosphor-icons/react";
+import { MagnifyingGlass, Calendar, Info, Link as LinkIcon } from "@phosphor-icons/react";
 
 export default function Home() {
-  // Your Sheet.best API URL:
   const SHEET_URL = "https://api.sheetbest.com/sheets/778987b8-6b96-49dd-9335-9f5d3ea95db7";
-
   const [airdrops, setAirdrops] = useState([]);
   const [search, setSearch] = useState("");
   const [tab, setTab] = useState("Live");
@@ -17,32 +15,32 @@ export default function Home() {
       .catch(console.error);
   }, []);
 
-  const filtered = airdrops.filter(
-    drop =>
-      (drop.Status?.toLowerCase() || "").includes(tab.toLowerCase()) &&
-      (
+  // Filtering logic
+  const filtered = airdrops
+    .filter(drop => 
+      tab === "Home" ? true : (drop.Status?.toLowerCase() || "").includes(tab.toLowerCase())
+    )
+    .filter(
+      drop =>
         (drop.Name?.toLowerCase() || "").includes(search.toLowerCase()) ||
         (drop.Project?.toLowerCase() || "").includes(search.toLowerCase())
-      )
-  );
+    );
 
   return (
-    <div
-      className="min-h-screen flex flex-col bg-gradient-to-br from-blue-400 via-purple-400 to-indigo-500"
-      style={{
-        fontFamily: "'Inter', 'Segoe UI', Arial, sans-serif",
-      }}
-    >
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-purple-900 to-blue-800"
+      style={{ fontFamily: "'Inter', 'Segoe UI', Arial, sans-serif" }}>
       {/* NAVBAR */}
-      <nav className="w-full flex justify-between items-center px-8 py-4 bg-white/40 shadow-md backdrop-blur-md">
-        <span className="text-2xl font-extrabold text-purple-800">🪂 AirdropTracker</span>
-        <ul className="flex items-center space-x-7 text-lg font-medium">
-          {["Home", "Live", "Upcoming", "Completed"].map((label) => (
+      <nav className="w-full flex justify-between items-center px-6 py-3 bg-white/10 shadow-md backdrop-blur-md">
+        <span className="text-2xl font-extrabold text-purple-200 tracking-wide">🪂 AirdropTracker</span>
+        <ul className="flex items-center space-x-6 text-base font-medium">
+          {["Home", "Live", "Upcoming", "Completed"].map(label => (
             <li key={label}>
               <button
-                className={`pb-1 ${
-                  tab === label ? "border-b-2 border-purple-600 text-purple-900" : "text-gray-700"
-                } hover:text-purple-700`}
+                className={`pb-1 px-2 rounded ${
+                  tab === label
+                    ? "border-b-2 border-purple-400 text-purple-100 bg-purple-900/30"
+                    : "text-gray-300"
+                } hover:text-purple-200 transition`}
                 onClick={() => setTab(label)}
               >
                 {label}
@@ -50,116 +48,88 @@ export default function Home() {
             </li>
           ))}
         </ul>
-        <div className="flex items-center space-x-4">
-          <button className="flex items-center px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg shadow hover:bg-purple-800 transition">
-            <BellSimple size={22} className="mr-2" />
-            Notifications
-          </button>
-          <img
-            src="https://randomuser.me/api/portraits/men/32.jpg"
-            alt="User"
-            className="w-10 h-10 rounded-full border-2 border-purple-300"
-          />
-        </div>
+        <button
+          onClick={() => window.open("https://docs.google.com/forms/d/e/1FAIpQLScWMEdrrPM6PYaFygnx9x_5L_7HY7zxkV360QHpzJ6cjFBw-A/viewform?usp=dialog", "_blank")}
+          className="px-5 py-2 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition shadow">
+          + Submit Airdrop
+        </button>
       </nav>
 
-      {/* HERO SECTION */}
-      <div className="flex-1 flex flex-col items-center justify-center px-2 text-center mb-0">
-        <h1 className="mt-8 mb-5 text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg">
-          Never Miss a Crypto Airdrop Again
+      {/* HERO */}
+      <div className="flex flex-col items-center mt-10 text-center">
+        <h1 className="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-purple-400 via-blue-400 to-blue-200 bg-clip-text text-transparent mb-4">
+          Discover, Track, and Never Miss <br /> the Latest Crypto Airdrops!
         </h1>
-        <p className="mb-8 text-lg md:text-2xl text-white/90 max-w-2xl">
-          Track, participate, and get updates on the latest cryptocurrency airdrops all in one place.
+        <p className="text-lg md:text-2xl text-white/90 max-w-2xl mb-8">
+          Real-time tracker for the hottest airdrops.<br />
+          Filter, search, and get official links, guides, and status updates — all in one place.
         </p>
-        <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 w-full max-w-2xl">
-          {/* Search bar */}
+        <div className="flex flex-col md:flex-row items-center gap-4 w-full max-w-xl">
           <div className="flex flex-1 items-center bg-white/90 rounded-xl px-4 py-2 shadow-md">
-            <MagnifyingGlass size={28} className="text-gray-400 mr-2" />
+            <MagnifyingGlass size={26} className="text-gray-400 mr-2" />
             <input
               type="text"
-              placeholder="Search for airdrops..."
+              placeholder="Search by name or project..."
               value={search}
               onChange={e => setSearch(e.target.value)}
               className="flex-1 bg-transparent outline-none text-lg text-gray-700 placeholder-gray-400"
             />
           </div>
-          {/* Add Custom Airdrop */}
-          <button
-            onClick={() =>
-              window.open(
-                "https://docs.google.com/forms/d/e/1FAIpQLScWMEdrrPM6PYaFygnx9x_5L_7HY7zxkV360QHpzJ6cjFBw-A/viewform?usp=dialog",
-                "_blank"
-              )
-            }
-            className="flex items-center justify-center px-6 py-3 bg-white text-purple-700 font-semibold text-lg rounded-xl shadow-md hover:bg-purple-600 hover:text-white transition space-x-2"
-          >
-            <span className="text-2xl">+</span>
-            <span>Add Custom Airdrop</span>
-          </button>
         </div>
       </div>
 
-      {/* Airdrop Cards */}
-      <div className="max-w-4xl w-full mx-auto px-4 mt-2 mb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* AIRDROP CARDS */}
+      <div className="max-w-6xl w-full mx-auto px-4 mt-10 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {filtered.length === 0 && (
-            <div className="col-span-2 text-center text-white text-xl mt-8">
-              No airdrops found.
+            <div className="col-span-3 text-center text-white text-2xl mt-16">
+              🚫 No airdrops found for your search/filter.
             </div>
           )}
           {filtered.map((airdrop, i) => (
-            <div
-              key={i}
-              className="bg-white/80 rounded-xl p-5 shadow-lg flex flex-col items-start hover:shadow-2xl transition"
-            >
-              <div className="flex items-center mb-3">
+            <div key={i} className="bg-gradient-to-br from-purple-800 via-blue-800 to-blue-700 rounded-2xl p-6 shadow-xl flex flex-col items-start hover:scale-105 transition">
+              <div className="flex items-center mb-4">
                 {airdrop.Image && (
                   <img
                     src={airdrop.Image}
-                    alt=""
-                    className="w-14 h-14 rounded-xl mr-3"
+                    alt="logo"
+                    className="w-16 h-16 rounded-xl mr-4 bg-white/10"
                     onError={e => (e.target.style.display = "none")}
                   />
                 )}
                 <div>
-                  <h2 className="text-xl font-bold text-purple-900">{airdrop.Name}</h2>
-                  <div className="text-sm text-gray-600">{airdrop.Project}</div>
-                  <span
-                    className={`inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
+                  <h2 className="text-2xl font-bold text-purple-100">{airdrop.Name}</h2>
+                  <div className="text-base text-blue-200">{airdrop.Project}</div>
+                  <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
                       airdrop.Status === "Live"
-                        ? "bg-green-100 text-green-700"
+                        ? "bg-green-200/70 text-green-900"
                         : airdrop.Status === "Upcoming"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : "bg-gray-300 text-gray-700"
-                    }`}
-                  >
+                        ? "bg-yellow-200/70 text-yellow-900"
+                        : "bg-gray-400/40 text-gray-900"
+                    }`}>
                     {airdrop.Status}
                   </span>
                 </div>
               </div>
-              <div className="mb-2 text-gray-700">{airdrop.Description}</div>
-              <div className="flex space-x-2 mt-auto">
+              <div className="mb-3 text-white/90 min-h-[56px]">{airdrop.Description}</div>
+              <div className="flex flex-wrap gap-2 mt-auto">
                 {airdrop.Website && (
-                  <a
-                    href={airdrop.Website}
-                    target="_blank"
-                    className="px-3 py-1 text-white bg-purple-600 rounded-lg font-medium hover:bg-purple-800 text-sm transition"
-                  >
-                    Visit Site
+                  <a href={airdrop.Website} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center px-3 py-1 text-white bg-blue-600 rounded-lg font-medium hover:bg-blue-800 text-sm transition gap-1">
+                    <LinkIcon size={16} /> Website
                   </a>
                 )}
                 {airdrop.Guide && (
-                  <a
-                    href={airdrop.Guide}
-                    target="_blank"
-                    className="px-3 py-1 text-purple-700 bg-purple-100 rounded-lg font-medium hover:bg-purple-200 text-sm transition"
-                  >
-                    Guide
+                  <a href={airdrop.Guide} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center px-3 py-1 text-blue-800 bg-blue-100 rounded-lg font-medium hover:bg-blue-300 text-sm transition gap-1">
+                    <Info size={16} /> Guide
                   </a>
                 )}
               </div>
-              <div className="mt-3 text-xs text-gray-400">
-                {airdrop.StartDate} – {airdrop.EndDate}
+              <div className="mt-4 flex items-center text-xs text-blue-200 gap-4">
+                <span className="flex items-center gap-1">
+                  <Calendar size={16} /> {airdrop.StartDate} → {airdrop.EndDate}
+                </span>
               </div>
             </div>
           ))}
